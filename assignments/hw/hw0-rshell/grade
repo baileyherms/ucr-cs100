@@ -1,53 +1,40 @@
-0/ 100
+20/ 100
 
- -100: test script is not readable
-
-  -10: README is not sufficient
-  
+  -20: binary files in the repo
+  -10: README is not sufficient  
   -10: no error checking for syscalls (-5 for each syscall, run checksyscalls.sh script in gitlearn/scripts to see detailed output - it takes c++ source files as arguments)
   
 
-Part 1: /30
+Part 1: 20/30
   [ /5]run any command with no params
   [ /5]run any command with a small number of params
-  [ /5]run any command with a large (>10) number of params
-  [ /5]run both a command in `/bin` and a command in the current directory;
+  [0 /5]run any command with a large (>10) number of params
+  [0 /5]run both a command in `/bin` and a command in the current directory;
 for example, run rshell from within rshell
   [ /5]if command doesn't exist, print appropriate error message
   [ /5]commands with lots of spaces between parameters, e.g. `     ls      -a -l        -R`
 
-Part 2: /35 (5pt extra)
-  [ /15]simple example showing two commands connected with each operator;
+Part 2:25 /35 (5pt extra)
+  [15 /15]simple example showing two commands connected with each operator;
 they must show both the case where the first command succeeds and the
 case where the first command fails.
   [ /5] example showing lots of commands chained together
-  [ /10]two examples mixing and matching different operators in one command 
+  [10 /10]two examples mixing and matching different operators in one command 
   [ /5] parsing example showing that the operators can be right next to each
 command or they can have spaces separating them; e.g. `ls -l||cat
   ; rm -rf *`
 
-Part 3: /20
-  [ /5]exit all by itself
+Part 3:5 /20
+  [5 /5]exit all by itself
   [ /5]exit with parameters passed to it 
   [ /5]exit as a parameter to something else shouldn't exit, e.g. `ls -l exit`
   [ /5] exit in a chain of commands should exit, e.g. `ls -l; exit`
 
-Part 4: /20
+Part 4:10 /20
   [ /10]comment within a command: `ls -l # this is a comment`
-  [ /5]comment on a line by itself
-  [ /5]comment where `#` touches something else: `ls -l# this is a comment
+  [0 /5]comment on a line by itself
+  [0 /5]comment where `#` touches something else: `ls -l# this is a comment
   here` 
 
 Extra credit: /10
   [ /10]all of prompts have the user information
-#####################################
-#
-# /home/user/.gitlearn/ucr-cs100/ucr-cs100-bherm001/assignments/hw/hw0-rshell//grade
-#
-# name      = Bailey Herms
-# csaccount = bherm001
-# github    = baileyherms
-#
-# any line that begins with a # is a comment and won't be written to the file
-#
-#####################################
