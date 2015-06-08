@@ -1,1 +1,43 @@
-/ 100
+100/ 100
+Last update Sun May 17 15:19:55 2015 -0700
+
+-----------------------------------------------------
+[1]  Input redirection from an existant file (25)
+-----------------------------------------------------
+[2]  Output redirection (>) to an non-existant file (15)
+-----------------------------------------------------
+[3]  Output append (>>) to an existing file (10)
+-----------------------------------------------------
+[4]  Command with one pipe (15)
+-----------------------------------------------------
+[5]  Command with more than one pipe (15)
+-----------------------------------------------------
+[6]  Input redirection with piping (5)
+  -5: Does not work!
+celik$.*<.\+| test missing
+
+-----------------------------------------------------
+[7]  Output redirection and piping (5)
+  -5: Does not work!
+celik$.*|.\+> test missing
+
+-----------------------------------------------------
+[8]  Input redirection, output redirection, and piping (10)
+  -10: Does not work!
+celik$ this is correct
+celik$.*<.\+|.\+> test missing
+
+-----------------------------------------------------
+  Extra 1: <<< (20)
+celik$ extra credit 1 works
+
+-----------------------------------------------------
+  Extra 2 (20)
+celik$ 
+celik$ 
+
+celik$.*2>> test missing
+  -5: 1> Does not work!
+  -5: 1>> Does not work!
+  -5: 2> Does not work!
+  -5: 2>> Does not work!

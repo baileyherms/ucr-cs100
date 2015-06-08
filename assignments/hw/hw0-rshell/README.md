@@ -116,7 +116,7 @@ You must use [the Markdown formatting language](../../../textbook/bestpractices/
 
 You must have a directory called `tests`.
 The directory will contain a file called `exec.script` that contains all of the test cases you tried.
-You will generate the file using the `script` command, and it must be succinct (i.e. it cannot have unnecessary commands in it).
+You will generate the file using the `script` command, and it must be sufficient (i.e. it cannot have unnecessary commands in it).
 You should use comments in your script to document what you are testing with each test case.
 [This video tutorial](https://izbicki.me/blog/videoguide-for-github-vim-bash.html#script) explains how to use the `script` command.
 

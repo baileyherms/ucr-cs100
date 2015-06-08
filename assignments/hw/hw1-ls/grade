@@ -1,2 +1,16 @@
-/ 100
+0/ 100
+Last update Fri May 1 18:00:05 2015 -0700
 
+Error checking for syscalls
+file: [src/ls.cpp] -0
+
+file: [src/ls.h] -80: let me know if there is mistake here
+
+file: [*.cpp] -0
+
+
+==15967== 65,632 bytes in 2 blocks are definitely lost in loss record 1 of 4 ==15967== 65,632 bytes in 2 blocks are definitely lost in loss record 2 of 4 ==15967== 65,632 bytes in 2 blocks are definitely lost in loss record 3 of 4 ==15967== 65,632 bytes in 2 blocks are definitely lost in loss record 4 of 4 ==15967== definitely lost: 262,528 bytes in 8 blocks
+-25: memory leak found in valgrind (ls -laR)
+
+
+-20:  ls -R doesn't print files inside folders?
