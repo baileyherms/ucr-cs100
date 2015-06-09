@@ -1,17 +1,8 @@
 #Boost Libraries- Optional, Any, Variant
-The boost libraries are a set of C++ source libraries that are designed to
-be used across various different applications.
-This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`. 
-Note: It is necessary to have using `boost::<type_name>` at the top of your code or else it is required to have `boost::<type_name>` for every boost function.
-
-Both instances will be shown below for optional, any, and variant.
-Note: Intances of `<type_name>` refer to optional, any, and variant. It is necessary to have `using boost::<type_name>` or else, it is required to have `boost::<type_name>` for every boost function, both will be shown below.
+This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`.
 <!--
-`<type_name> = optional, any, variant`
+Why should people care
 -->
-
-##Boost.Optional
-Uses library `<boost/optional.hpp>`
 
 Allows for optional return types.
 This is done because Boost.Optional initializes a variable as empty but allows for a possible type change later.
@@ -35,7 +26,7 @@ boost::optional<double> degrees()
 	if(deg)
 	{
 		cout << "There is a temperature reported." << endl;
-		return deg;
+		return optional<double>{};
 	}
 	else
 	{
@@ -52,12 +43,15 @@ int main()
 	return 0;
 }
 ```
-This will return:
+This will output:
 
 ```
 There is no temperature reported.
 There is a temperature reported.
 ```
+<!---
+Show commands to compile and run code
+--->
 <!---
 is_initialized() -> will check to see if the boost::optional variable has been initialized. Can use it to know if it is possible to output.
 
@@ -68,6 +62,9 @@ make_optional() makes a new optional var. Similar to new
 boost::optional get_value_or( , )    boost::get_optional_value_or( , ) if first param is initialized then will return that value else will return a default value specified as the second param
 --->
 ##Boost.Any
+<!---
+You need to talk about the difference between dynamic and static typing. In particular, you should never use Any when it is possible to use auto.
+--->
 Uses library `<boost/any.hpp>`
 
 It allows for a variable that can be changed to any type in any portion of its scope.
@@ -81,36 +78,23 @@ and why
 -->
 For example:
 ```
-#include <boost/any.hpp>
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-	boost::any var = 4;
-	
-	var = false;
-	var = 3.25678;
-	var = string("hello world");
-	return 0;
-}
+boost::any var = 4;
+var = false;
+var = 3.25678;
+var = string("hello world");
+return 0;
 ```
 This is valid.
 But if you tried to do this:
 ```
-int main()
-{
-	boost::any var = 4;
-	
-	var = false;
-	var = 3.25678;
-	var = string("hello world");	
-	cout << var << endl;
-	return 0;
-}
+boost::any var = 4;
+var = false;
+var = 3.25678;
+var = string("hello world");
+cout << var << endl;
+return 0;
 ```
-You would get an error because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `any`.
+You would get an error because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
 
 So what do you need to do to output a Boost.Any variable?
 You would need to use `boost::any_cast` 
@@ -207,6 +191,9 @@ Remember: At least one parameter must be specified.
 <!--
 Link to a site that explains
 -->
+<!---
+Why should he care
+--->
 
 One reason to use Boost.Variant rather than Boost.Any is that when outputting a variant value, you do not have to specify the type since you define the possible types the value can be when initializing the value.
 
@@ -239,6 +226,9 @@ This will output:
 V
 hello world
 ```
+<!---
+Why should he care
+--->
 If you wanted to use other operators on the values other than just stream, then you'd have to do something similar to the cast used in Boost.Any.
 The way to do that is to use `boost::get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
 So to add two `ints` or to concatenate two `strings`, you'd have to change the code to:
