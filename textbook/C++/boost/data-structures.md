@@ -3,11 +3,25 @@ This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`.
 <!--
 Why should people care
 -->
+##How to Use
+We first need to include the boost libraries and use the boost namespace.
+```
+#include <boost/optional.hpp>
+#include <iostream>
 
+using namespace std;
+using namespace boost;
+```
+For the above just replace `<boost/optional.hpp>` with whatever boost type you're using.
+
+##Boost.Optional
 Allows for optional return types.
-This is done because Boost.Optional initializes a variable as empty but allows for a possible type change later.
+This is done because optional initializes a variable as empty but allows for a possible type change later.
 This can be useful to use if you want to check if a function returns a valid value.
 
+<!---
+Change the below to an example
+--->
 For example `-1` is normally considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
 In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
 
