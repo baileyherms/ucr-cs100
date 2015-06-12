@@ -1,12 +1,16 @@
+<!---
+Fix examples, only put in the part of the examples in the writeup which are relevent to that part
+Split up examples (ex: split up any into multiple example files)
+--->
 #Boost Libraries- Optional, Any, Variant
 This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`. The point of these libraries is to take the statically typed language C++ and make it similar to dynamically typed languages.
 
 Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code. Languages C, C++, and Java are statically typed.
 
 Dynamically Typed: The type of a variable is interpretted at runtime, thus not specified by the programmer. Languages JavaScript, Objective-C, and Python are dynamically typed.
-<!--
+<!---
 Why should people care
--->
+--->
 ##How to Use
 We first need to include the boost libraries and use the boost namespace.
 ```
