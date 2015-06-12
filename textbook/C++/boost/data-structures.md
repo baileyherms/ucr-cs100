@@ -134,7 +134,12 @@ int main()
 	return 0;
 }
 ```
-This outputs `hello world`
+This outputs 
+```
+$ g++ -std=c++11 any.cpp -o any
+$ ./any
+hello world
+```
 
 You can even output multiple Boost.Any variables. These variables will output a value based on their type.
 <!--
