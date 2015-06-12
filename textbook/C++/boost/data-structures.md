@@ -1,5 +1,8 @@
 #Boost Libraries- Optional, Any, Variant
-This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`.
+This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`. The point of these libraries is to take the statically typed language C++ and make it similar to dynamically typed languages.
+
+Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code. Languages C, C++, and Java are statically typed.
+Dynamically Typed: The type of a variable is interpretted at runtime, thus not specified by the programmer. Languages JavaScript, Objective-C, and Python are dynamically typed.
 <!--
 Why should people care
 -->
@@ -15,6 +18,9 @@ using namespace boost;
 For the above just replace `<boost/optional.hpp>` with whatever boost type you're using.
 
 ##Boost.Optional
+<!---
+Begin with an example then explain it
+--->
 Allows for optional return types.
 This is done because optional initializes a variable as empty but allows for a possible type change later.
 This can be useful to use if you want to check if a function returns a valid value.
