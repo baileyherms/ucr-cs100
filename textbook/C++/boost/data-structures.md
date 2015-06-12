@@ -33,18 +33,12 @@ This can be useful to use if you want to check if a function returns a valid val
 <!---
 Change the below to an example
 --->
-For example `-1` is normally considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
+For example `-1` is sometimes considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
 In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
 
 Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error.
 
 ```
-#include <boost/optional.hpp>
-#include <iostream>
-
-using namespace std;
-using boost::optional;
-
 double deg;
 boost::optional<double> degrees()
 {
@@ -96,28 +90,28 @@ It allows for a variable that can be changed to any type in any portion of its s
 <!---
 Explain what variables it cannot use
 -->
+<!---
 This is useful to use in place of `auto` because `auto` will assign a type to that variable from that point on, and Boost.Any will not. 
 This takes up less memory (but the variable itself will take up more memory) because it enables you to reuse variables as different types instead of having to initialize new variables.
+--->
 <!--
 and why
 -->
 For example:
 ```
-boost::any var = 4;
+any var = 4;
 var = false;
 var = 3.25678;
 var = string("hello world");
-return 0;
 ```
 This is valid.
 But if you tried to do this:
 ```
-boost::any var = 4;
+any var = 4;
 var = false;
 var = 3.25678;
 var = string("hello world");
 cout << var << endl;
-return 0;
 ```
 You would get an error because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
 
@@ -127,16 +121,12 @@ You would need to use `boost::any_cast`
 (explain how var is currently set to a string and that it cannot `cout << boost::any_cast<int>(var) << endl;`)
 -->
 ```
-int main()
-{
-	boost::any var = 4;
-	
-	var = false;
-	var = 3.25678;
-	var = string("hello world");
-	cout << boost::any_cast<string>(var) << endl;
-	return 0;
-}
+boost::any var = 4;
+var = false;
+var = 3.25678;
+var = string("hello world");
+cout << boost::any_cast<string>(var) << endl;
+return 0;
 ```
 This outputs 
 ```
@@ -151,21 +141,19 @@ You can even output multiple Boost.Any variables. These variables will output a 
 (explain better, change wording)
 -->
 ```
-int main()
-{
-	boost::any var = 4;
-	cout << boost::any_cast<int>(var) << endl;
-	var = false;
-	cout << boost::any_cast<bool>(var) << endl;
-	var = 3.25678;
-	cout << boost::any_cast<double>(var) << endl;
-	var = string("hello world");
-	cout << boost::any_cast<string>(var) << endl;
-	return 0;
-}
+boost::any var = 4;
+cout << boost::any_cast<int>(var) << endl;
+var = false;
+cout << boost::any_cast<bool>(var) << endl;
+var = 3.25678;
+cout << boost::any_cast<double>(var) << endl;
+var = string("hello world");
+cout << boost::any_cast<string>(var) << endl;
 ```
 This will output:
 ```
+$ g++ -std=c++11 any.cpp -o any
+$ ./any
 4
 0
 3.25678
@@ -180,17 +168,15 @@ Link to something explaining cast type
 
 For example, we can modify the previous example to:
 ```
-int main()
-{
-	boost::any var = 4;
-	cout << boost::any_cast<int>(var) + boost::any_cast<int>(var) << endl;
-	cout << boost::any_cast<string>(var) + boost::any_cast<string>(var) << endl;
-	return 0;
-}
+boost::any var = 4;
+cout << boost::any_cast<int>(var) + boost::any_cast<int>(var) << endl;
+cout << boost::any_cast<string>(var) + boost::any_cast<string>(var) << endl;
 ```
 This will now output:
 
 ```
+$ g++ -std=c++11 any.cpp -o any
+$ ./any
 8
 44
 ```
@@ -212,6 +198,10 @@ vect.push_back(9.09);
 ```
 `Vector vect` now holds the values `'a', 8, 9.09`.
 
+<!---
+Add typeid, typeid with vector, any_cast as a "put it all together"
+--->
+
 ##Boost.Variant
 Uses library `<boost/variant.hpp>`
 
@@ -229,59 +219,44 @@ One reason to use Boost.Variant rather than Boost.Any is that when outputting a 
 
 For example:
 ```
-#include <boost/variant.hpp>
-#include <string>
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-	boost::variant<int, double, char, string> var;
-	var = 4;
-	cout << var << endl;
-	var = 3.98;
-	cout << var << endl;
-	var = 'V';
-	cout << var << endl;
-	var = "hello world"
-	cout << var << endl;
-	return 0;
-}
+boost::variant<int, double, char, string> var;
+var = 4;
+cout << var << endl;
+var = 3.98;
+cout << var << endl;
+var = 'V';
+cout << var << endl;
+var = "hello world"
+cout << var << endl;
+return 0;
 ```
 This will output:
 ```
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
 4
 3.98
 V
 hello world
 ```
 <!---
-Why should he care
+Why should he care (add variant.cpp example here)
 --->
 If you wanted to use other operators on the values other than just stream, then you'd have to do something similar to the cast used in Boost.Any.
 The way to do that is to use `boost::get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
 So to add two `ints` or to concatenate two `strings`, you'd have to change the code to:
 ```
-#include <boost/variant.hpp>
-#include <string>
-#include <iostream>
-
-using namespace std;
-
-int main()
-{
-	boost::variant<int, double, char, string> var, var2;
-	var = 4;
-	cout << boost::get<int>(var) + boost::get<int>(var) << endl;
-	var = "hello";
-	var2 = " world";
-	cout << boost::get<string>(var) + boost::get<string>(var2) << endl;
-	return 0;
-}
+boost::variant<int, double, char, string> var, var2;
+var = 4;
+cout << boost::get<int>(var) + boost::get<int>(var) << endl;
+var = "hello";
+var2 = " world";
+cout << boost::get<string>(var) + boost::get<string>(var2) << endl;
 ```
 This will output:
 ```
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
 8
 hello world
 ```
@@ -329,6 +304,8 @@ int main()
 ```
 This will output:
 ```
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
 integer 4
 double 3.98
 character V
@@ -364,24 +341,24 @@ int main()
 ```
 This will output:
 ```
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
 integer 8
 string hello hello
 ```
 Note: If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a string as we did with Boost.Any, then you'd have to use the [boost::lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
 The main function of the previous example would need to become:
 ```
-int main()
-{
-	boost::variant<int, string> var;
-	var = 4;
-	boost::apply_visitor(func{}, var);
-	var = boost::lexical_cast<string>(var);
-	boost::apply_visitor(func{}, var);
-	return 0;
-}
+boost::variant<int, string> var;
+var = 4;
+boost::apply_visitor(func{}, var);
+var = boost::lexical_cast<string>(var);
+boost::apply_visitor(func{}, var);
 ```
 This will now output:
 ```
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
 integer 8
 string 44
 ```
