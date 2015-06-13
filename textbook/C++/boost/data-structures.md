@@ -179,22 +179,16 @@ As you can see, the cast is very important in how the code ends up being execute
 Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any1.cpp) example.
 
 ```
-void type(any a)
-{
-	if(!a.empty())
-	{
-		const type_info &ti = a.type();
-		cout << "type: " << ti.name() << endl;
-		if(a.type() == typeid(int))
-			cout << any_cast<int>(a) << endl;
-		else if(a.type() == typeid(double))
-			cout << any_cast<double>(a) << endl;
-		else
-			cout << "The type of a is not an int or a double" << endl;
-	}
-}
+const type_info &ti = a.type();
+cout << "type: " << ti.name() << endl;
+if(a.type() == typeid(int))
+	cout << any_cast<int>(a) << endl;
+else if(a.type() == typeid(double))
+	cout << any_cast<double>(a) << endl;
+else
+	cout << "The type of a is not an int or a double" << endl;
 ```
-Main calls `type(a)` and this outputs:
+Main calls the above function where `a = 1` then `a = 3.65`  and this outputs:
 ```
 $ g++ -std=c++11 any1.cpp -o any1
 $ ./any1
@@ -248,7 +242,7 @@ for(unsigned i = 0; i < v.size(); i++)
 	cout << "GPA: " << any_cast<double>(v.at(i)) << endl;
 }
 ```
-Here the `vector<any> v` is filled by the user (as seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any3.cpp)) file and the below is output:
+Here the `vector<any> v` is filled by the user (as seen in the above file) and this is the output:
 ```
 $ g++ -std=c++11 any3.cpp -o any3
 $ ./any3
@@ -298,7 +292,7 @@ If you wanted to use other operators on the values other than just stream, then 
 The way to do that is to use `get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
 So to add two `ints` or to concatenate two `strings`, you'd have to change the code to what's in [variant_get.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_get.cpp):
 ```
-variant<int, double, char, string> var, var2;
+variant<int, string> var, var2;
 var = 4;
 cout << get<int>(var) + get<int>(var) << endl;
 var = "hello";
@@ -363,10 +357,8 @@ Since there are multiple possible results based on the visitor functional object
 If we wanted to choose to add two `ints` or concatenate two `strings`, then we could use `apply_visitor` to do that for us as shown in [variant_apply_add.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_apply_add.cpp).
 
 ```
-void operator()(int i) const
-	cout << "integer " <<  i + i << endl;
-void operator()(string s) const 
-	cout << "string " << s + s << endl;
+void operator()(int i) const { cout << "integer " <<  i + i << endl; }
+void operator()(string s) const { cout << "string " << s + s << endl; }
 ```
 The above code would be in the `struct func : public static_visitor<>` function.
 It is called in main like this:
@@ -380,7 +372,7 @@ You then get:
 ```
 $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
-string hello hello
+string hellohello
 ```
 ###`lexical_cast`
 If you wanted to have a Boost.Variant variable and cast it to another type to use in the `static_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
