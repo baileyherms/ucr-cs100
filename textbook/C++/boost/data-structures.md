@@ -37,7 +37,6 @@ This can be useful to use if you want to check if a function returns a valid val
 Change the below to an example
 --->
 
-Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error.
 Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/optional_temp.cpp)
 
 <!---
@@ -53,6 +52,7 @@ optional<double> degrees()
 		return optional<double>{};
 }
 ```
+Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that temperature is empty.
 The main function calls `degrees()` first without initializing `deg`, then after initializing `deg` with `-1`.
 This will output:
 
