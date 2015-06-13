@@ -396,3 +396,27 @@ $ ./variant
 integer 8
 string 44
 ```
+###All Together
+A useful way to use all of these Boost.Variant features is with parsing.
+Let's look at our [variant.cpp](https://github.com/baileyherms/rshell/blob/master/src/variant.cpp) example.
+
+In this file, we want to look at `vect`.
+```
+vect = {"cat", '<', "in.txt", '|', "tr", "A-Z", "a-z", '>', "out.txt"};
+```
+`vect` contains different commands and connectors and we want to output the commands and the connectors separately.
+The best way we can do this is by using `apply_visitor` to determine what is considered a command or a connector.
+```
+vector<char> connectors;
+vector<string> commands;
+struct output : public boost::static_visitor<>
+{
+	void operator()(char c) const { connectors.push_back(c); }
+	void operator()(string s) const { commands.push_back(s); }
+};
+```
+Once we fill `connectors` and `commands`, then we can output each item in the correct category.
+By running the `variant.cpp` file, we will get:
+```
+<insert code output>
+```
