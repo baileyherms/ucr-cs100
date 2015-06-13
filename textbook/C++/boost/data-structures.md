@@ -5,9 +5,11 @@ Split up examples (ex: split up any into multiple example files)
 #Boost Libraries- Optional, Any, Variant
 The point of the libraries `boost/optional`, `boost/any`,and `boost/variant` is to take the statically typed language C++ and make it similar to dynamically typed languages.
 
-Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code. Languages C, C++, and Java are statically typed.
+Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code.
+Languages C, C++, and Java are statically typed.
 
-Dynamically Typed: The type of a variable is interpretted at runtime, thus not specified by the programmer. Languages JavaScript, Objective-C, and Python are dynamically typed.
+Dynamically Typed: The type of a variable is interpretted at runtime, thus not specified by the programmer.
+Languages JavaScript, Objective-C, and Python are dynamically typed.
 <!---
 Why should people care
 --->
@@ -26,7 +28,7 @@ For the above just replace `<boost/optional.hpp>` with whatever boost type you'r
 <!---
 Begin with an example then explain it
 --->
-Allows for optional return types.
+Uses library `<boost/optional.hpp>` and allows for optional return types.
 This is done because optional initializes a variable as empty but allows for a possible type change later.
 This can be useful to use if you want to check if a function returns a valid value.
 
@@ -34,7 +36,8 @@ This can be useful to use if you want to check if a function returns a valid val
 Change the below to an example
 --->
 
-Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error. Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp)
+Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error.
+Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp)
 
 <!---
 Replace this example with something else
@@ -45,21 +48,26 @@ boost::optional<double> degrees()
 {
 	if(deg)
 	{
-		cout << "The temperature is " << deg << " degress." << endl;
-		return optional<double>{};
+		return deg;
 	}
 	else
 	{
-		cout << "There is no temperature reported" << endl;
 		return optional<double>{};
 	}
 }
-
 int main()
 {
 	degrees();
-	deg = 43;
+	if(deg)
+		cout << "The temperature is " << deg << " degrees." << endl;
+	else
+		cout << "There is no temperature reported." << endl;
+	deg = -1;
 	degrees();
+	if(deg)
+		cout << "The temperature is " << deg << " degrees." << endl;
+	else
+		cout << "There is no temperature reported." << endl;
 	return 0;
 }
 ```
@@ -69,10 +77,10 @@ This will output:
 $ g++ -std=c++11 optional_temp.cpp -o optional_temp
 $ ./optional_temp
 There is no temperature reported.
-The temperature is 43 degrees.
+The temperature is -1 degrees.
 ```
-`-1` is sometimes considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
-In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
+`-1` is sometimes considered valid (such as when measuring temperature temperature), but `-1` is also used to say when a function has failed. 
+In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when there is no temperature to measure.
 <!---
 Show commands to compile and run code
 --->
@@ -239,8 +247,6 @@ As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any
 <!--
 Should change wording
 -->
-
-For example:
 ```
 vector<any> vect;
 for(unsigned i = 0; i < 2; i++)
