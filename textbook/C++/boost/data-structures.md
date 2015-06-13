@@ -344,6 +344,7 @@ You then get:
 ```
 $ g++ -std=c++11 variant_apply_add.cpp -o variant_apply_add
 $ ./variant_apply_add
+integer 8
 string hellohello
 ```
 ###`lexical_cast`
