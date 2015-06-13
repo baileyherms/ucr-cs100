@@ -394,10 +394,17 @@ Connectors: < | >
 
 ##References
 [Boost.Optional Directory](http://www.boost.org/doc/libs/1_58_0/libs/optional/doc/html/index.html)
+
 [Boost.Any Directory](http://www.boost.org/doc/libs/1_58_0/doc/html/any.html)
+
 [Boost.Variant Directory](http://www.boost.org/doc/libs/1_58_0/doc/html/variant.html)
+
 [Boost.Optional Library](http://theboostcpplibraries.com/boost.optional)
+
 [Boost.Any Library](http://theboostcpplibraries.com/boost.any)
+
 [Boost.Variant Library](http://theboostcpplibraries.com/boost.variant)
+
 [Boost.Variant vs Boost.Any](http://www.boost.org/doc/libs/1_58_0/doc/html/variant/misc.html#variant.versus-any)
+
 [lexical_cast Library](http://theboostcpplibraries.com/boost.lexical_cast)
