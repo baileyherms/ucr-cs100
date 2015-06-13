@@ -147,7 +147,7 @@ hohoho
 As you can see, the cast is very important in how the code ends up being executed.
 --->
 ###`type_info`
-Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any1.cpp) example.
+Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any1.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any1.cpp) example.
 
 ```
 const type_info &ti = a.type();
