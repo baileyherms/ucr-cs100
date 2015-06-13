@@ -4,6 +4,7 @@ Split up examples (ex: split up any into multiple example files)
 --->
 #Boost Libraries- Optional, Any, Variant
 The point of the libraries `boost/optional`, `boost/any`,and `boost/variant` is to take the statically typed language C++ and make it similar to dynamically typed languages.
+These libraries are useful because they allow for a variable to have varying types.
 
 Statically Typed: The type of a variable is known at runtime.
 The programmer must specify the type in the code.
