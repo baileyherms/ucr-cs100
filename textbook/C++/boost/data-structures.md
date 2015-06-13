@@ -204,7 +204,7 @@ type: d
 3.65
 ```
 
-The examples above show us how to use `boost::any`, but now we need to find a use for it.
+The examples above show us how to use `boost::any`, but now we need to find a way to make `boost::any` useful.
 
 ###`Any` `Vectors`
 At this point, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
