@@ -203,8 +203,11 @@ type: i
 type: d
 3.65
 ```
+
+The examples above show us how to use `boost::any`, but now we need to find a use for it.
+
 ###`Any` `Vectors`
-Now, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
+At this point, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
 
 As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
 <!--
