@@ -63,7 +63,7 @@ $ ./optional_temp
 There is no temperature reported.
 The temperature is -1 degrees.
 ```
-`-1` is sometimes considered valid (such as when measuring temperature temperature), but `-1` is also used to say when a function has failed. 
+`-1` is sometimes considered valid (such as when measuring temperature), but `-1` is also typically used to say when a function has failed. 
 In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when there is no temperature to measure.
 <!---
 Show commands to compile and run code
