@@ -322,7 +322,7 @@ This is used with `apply_visitor()` that takes two arguments within its parenthe
 (link to something explaining how to use boost::apply_visitor())
 -->
 
-The first arugment expects a struct that is derived from `static_visitor`.
+The first argument expects a struct that is derived from `static_visitor`.
 This struct must overload the `operator()` for each possible type defined for your variant variable.
 The second parameter is a Boost.Variant variable.
 
