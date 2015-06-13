@@ -272,7 +272,7 @@ Why should he care
 ###Why Boost.Variant
 One reason to use Boost.Variant rather than Boost.Any is that when outputting a variant value, you do not have to specify the type since you define the possible types the value can be when initializing the value.
 
-For example:
+Here is the [variant_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_simple.cpp) file:
 ```
 variant<char, string> var;
 var = 'V';
@@ -293,7 +293,7 @@ Why should he care (add variant.cpp example here)
 ###`get<type>`
 If you wanted to use other operators on the values other than just stream, then you'd have to do something similar to the cast used in Boost.Any.
 The way to do that is to use `get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
-So to add two `ints` or to concatenate two `strings`, you'd have to change the code to:
+So to add two `ints` or to concatenate two `strings`, you'd have to change the code to what's in [variant_get.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_get.cpp):
 ```
 variant<int, double, char, string> var, var2;
 var = 4;
@@ -326,7 +326,7 @@ The first arugment expects a struct that is derived from `static_visitor`.
 This struct must overload the `operator()` for each possible type defined for your variant variable.
 The second parameter is a Boost.Variant variable.
 
-For example:
+For example in [variant_apply.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_apply.cpp):
 ```
 struct func : public static_visitor<>
 {
@@ -335,7 +335,7 @@ struct func : public static_visitor<>
 };
 ```
 This is the function for apply_visitor.
-It is called like this:
+It is called in main like this:
 ```
 var = 'V';
 apply_visitor(func{}, var);
@@ -357,7 +357,7 @@ When the variant variable type is the same as the `operator()(type)` then that p
 (explain how apply_visitor works)
 --->
 Since there are multiple possible results based on the visitor functional object that are passed into `apply_visitor`, we are able to do different types of outputs without needing to know specifically which type of variable we are dealing with.
-If we wanted to choose to add two `ints` or concatenate two `strings`, then we could use `apply_visitor` to do that for us.
+If we wanted to choose to add two `ints` or concatenate two `strings`, then we could use `apply_visitor` to do that for us as shown in [variant_apply_add.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_apply_add.cpp).
 
 ```
 void operator()(int i) const
@@ -381,7 +381,7 @@ string hello hello
 ```
 ###`lexical_cast`
 If you wanted to have a Boost.Variant variable and cast it to another type to use in the `static_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
-The main function of the previous example would need to become:
+The main function of the previous example would need to become what's in [variant_lexical.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant_lexical.cpp):
 ```
 variant<int, string> var;
 var = 4;
@@ -398,7 +398,7 @@ string 44
 ```
 ###All Together
 A useful way to use all of these Boost.Variant features is with parsing.
-Let's look at our [variant.cpp](https://github.com/baileyherms/rshell/blob/master/src/variant.cpp) example.
+Let's look at our [variant.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/variant.cpp) example.
 
 In this file, we want to look at `vect`.
 ```
@@ -418,5 +418,9 @@ struct output : public boost::static_visitor<>
 Once we fill `connectors` and `commands`, then we can output each item in the correct category.
 By running the `variant.cpp` file, we will get:
 ```
-<insert code output>
+$ g++ -std=c++11 variant.cpp -o variant
+$ ./variant
+Original: cat < in.txt | tr A-Z a-z > out.txt 
+Commands: cat in.txt tr A-Z a-z out.txt 
+Connectors: < | > 
 ```
