@@ -15,7 +15,7 @@ Languages JavaScript, Objective-C, and Python are dynamically typed.
 Why should people care
 --->
 ##How to Use
-We first need to look at our [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp) file which includes the boost libraries and uses the boost namespace.
+We first need to look at our [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/optional_temp.cpp) file which includes the boost libraries and uses the boost namespace.
 ```
 #include <boost/optional.hpp>
 #include <iostream>
@@ -38,7 +38,7 @@ Change the below to an example
 --->
 
 Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error.
-Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp)
+Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/optional_temp.cpp)
 
 <!---
 Replace this example with something else
@@ -92,7 +92,7 @@ This takes up less memory (but the variable itself will take up more memory) bec
 and why
 -->
 ###`any_cast`
-For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) shows:
+For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any_simple.cpp) shows:
 ```
 any var = 4;
 var = string("hello world");
@@ -132,7 +132,7 @@ hello world
 
 You can even output multiple Boost.Any variables.
 These variables will output a value based on their type.
-This can be seen in [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_mult.cpp)
+This can be seen in [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any_mult.cpp)
 <!--
 (explain different types)
 (explain better, change wording)
@@ -157,7 +157,7 @@ The cast is necessary because Boost.Any assigns values to `var` at runtime so th
 Link to something explaining cast type
 -->
 
-For example, we can modify the previous example to become [any_add.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_add.cpp):
+For example, we can modify the previous example to become [any_add.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any_add.cpp):
 ```
 any var = 4;
 cout << any_cast<int>(var) + any_cast<int>(var) << endl;
@@ -176,7 +176,7 @@ hohoho
 As you can see, the cast is very important in how the code ends up being executed.
 --->
 ###`type_info`
-Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/any1.cpp) example.
+Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any1.cpp) example.
 
 ```
 void type(any a)
@@ -206,7 +206,7 @@ type: d
 ###`Any` `Vectors`
 Now, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
 
-As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
+As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
 <!--
 Should change wording
 -->
@@ -234,7 +234,7 @@ Insert a char: b
 b
 ```
 ###All Together
-A useful application combining the above examples can be seen in [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp):
+A useful application combining the above examples can be seen in [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any3.cpp):
 ```
 for(unsigned i = 0; i < v.size(); i++)
 {
@@ -245,7 +245,7 @@ for(unsigned i = 0; i < v.size(); i++)
 	cout << "GPA: " << any_cast<double>(v.at(i)) << endl;
 }
 ```
-Here the `vector<any> v` is filled by the user (as seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp)) file and the below is output:
+Here the `vector<any> v` is filled by the user (as seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any3.cpp)) file and the below is output:
 ```
 $ g++ -std=c++11 any3.cpp -o any3
 $ ./any3
