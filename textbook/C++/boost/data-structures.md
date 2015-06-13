@@ -5,7 +5,8 @@ Split up examples (ex: split up any into multiple example files)
 #Boost Libraries- Optional, Any, Variant
 The point of the libraries `boost/optional`, `boost/any`,and `boost/variant` is to take the statically typed language C++ and make it similar to dynamically typed languages.
 
-Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code.
+Statically Typed: The type of a variable is known at runtime.
+The programmer must specify the type in the code.
 Languages C, C++, and Java are statically typed.
 
 Dynamically Typed: The type of a variable is interpretted at runtime, thus not specified by the programmer.
@@ -29,7 +30,7 @@ For the above just replace `<boost/optional.hpp>` with whatever boost type you'r
 Begin with an example then explain it
 --->
 Uses library `<boost/optional.hpp>` and allows for optional return types.
-This is done because optional initializes a variable as empty but allows for a possible type change later.
+This is done because Boost.Optional initializes a variable as empty but allows for a possible type change later.
 This can be useful to use if you want to check if a function returns a valid value.
 
 <!---
@@ -274,7 +275,7 @@ for(unsigned i = 0; i < 2; i++)
 	}
 }
 ```
-`vect` now holds two integers, doubles, and chars all assigned by the user.
+`vect` now holds two `ints`, `doubles`, and `chars` all assigned by the user.
 When the above is run:
 ```
 $ g++ -std=c++11 any2.cpp -o any2
@@ -466,7 +467,7 @@ integer 8
 string hello hello
 ```
 ###lexical_cast
-If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a string as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
+If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
 The main function of the previous example would need to become:
 ```
 variant<int, string> var;
