@@ -91,7 +91,7 @@ This takes up less memory (but the variable itself will take up more memory) bec
 <!--
 and why
 -->
-###Any_Cast
+###`any_cast`
 For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) shows:
 ```
 any var = 4;
@@ -175,7 +175,7 @@ hohoho
 <!---
 As you can see, the cast is very important in how the code ends up being executed.
 --->
-###type_info
+###`type_info`
 Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/any1.cpp) example.
 
 ```
@@ -203,7 +203,7 @@ type: i
 type: d
 3.65
 ```
-###`Any` Vectors
+###`Any` `Vectors`
 Now, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
 
 As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
@@ -290,7 +290,7 @@ hello world
 <!---
 Why should he care (add variant.cpp example here)
 --->
-###get<type>
+###`get<type>`
 If you wanted to use other operators on the values other than just stream, then you'd have to do something similar to the cast used in Boost.Any.
 The way to do that is to use `get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
 So to add two `ints` or to concatenate two `strings`, you'd have to change the code to:
@@ -377,7 +377,7 @@ $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
 string hello hello
 ```
-###lexical_cast
+###`lexical_cast`
 If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
 The main function of the previous example would need to become:
 ```
