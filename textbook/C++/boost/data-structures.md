@@ -48,30 +48,12 @@ double deg;
 boost::optional<double> degrees()
 {
 	if(deg)
-	{
 		return deg;
-	}
 	else
-	{
 		return optional<double>{};
-	}
-}
-int main()
-{
-	degrees();
-	if(deg)
-		cout << "The temperature is " << deg << " degrees." << endl;
-	else
-		cout << "There is no temperature reported." << endl;
-	deg = -1;
-	degrees();
-	if(deg)
-		cout << "The temperature is " << deg << " degrees." << endl;
-	else
-		cout << "There is no temperature reported." << endl;
-	return 0;
 }
 ```
+The main function calls `degrees()` first without initializing `deg`, then after initializing `deg` with `-1`.
 This will output:
 
 ```
@@ -113,16 +95,12 @@ and why
 For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) shows:
 ```
 any var = 4;
-var = false;
-var = 3.25678;
 var = string("hello world");
 ```
 This is valid and var would be assigned `hello world`.
 But if you tried to do this:
 ```
 any var = 4;
-var = false;
-var = 3.25678;
 var = string("hello world");
 cout << var << endl;
 ```
@@ -142,8 +120,6 @@ You would need to use `any_cast`
 -->
 ```
 any var = 4;
-var = false;
-var = 3.25678;
 var = string("hello world");
 cout << any_cast<string>(var) << endl;
 ```
@@ -164,10 +140,6 @@ This can be seen in [any_mult.cpp](https://github.com/baileyherms/rshell/blob/ma
 ```
 any var = 4;
 cout << any_cast<int>(var) << endl;
-var = false;
-cout << any_cast<bool>(var) << endl;
-var = 3.25678;
-cout << any_cast<double>(var) << endl;
 var = string("hello world");
 cout << any_cast<string>(var) << endl;
 ```
@@ -176,8 +148,6 @@ This will output:
 $ g++ -std=c++11 any_mult.cpp -o any_mult
 $ ./any_mult
 4
-0
-3.25678
 hello world
 ```
 Note: You will have to change the cast type depending on what type `var` is currently set to.
@@ -223,16 +193,8 @@ void type(any a)
 			cout << "The type of a is not an int or a double" << endl;
 	}
 }
-int main()
-{
-	any a = 1;
-	type(a);
-	a = 3.65;
-	type(a);
-	return 0;
-}
 ```
-This outputs:
+Main calls `type(a)` and this outputs:
 ```
 $ g++ -std=c++11 any1.cpp -o any1
 $ ./any1
@@ -249,30 +211,14 @@ As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any
 Should change wording
 -->
 ```
-vector<any> vect;
-for(unsigned i = 0; i < 2; i++)
+for(unsigned i = 0; i < vect.size(); i++)
 {
-	int in;
-	double d;
-	char c;
-	cout << "Insert an integer: ";
-	cin >> in;
-	vect.push_back(in);
-	cout << "Insert a double: ";
-	cin >> d;
-	vect.push_back(d);
-	cout << "Insert a char: ";
-	cin >> c;
-	vect.push_back(c);
-	for(unsigned i = 0; i < vect.size(); i++)
-	{
-		if(vect.at(i).type() == typeid(int))
-			cout << any_cast<int>(vect.at(i)) << endl;
-		else if(vect.at(i).type() == typeid(double))
-			cout << any_cast<double>(vect.at(i)) << endl;
-		else if(vect.at(i).type() == typeid(char))
-			cout << any_cast<char>(vect.at(i)) << endl;
-	}
+	if(vect.at(i).type() == typeid(int))
+		cout << any_cast<int>(vect.at(i)) << endl;
+	else if(vect.at(i).type() == typeid(double))
+		cout << any_cast<double>(vect.at(i)) << endl;
+	else if(vect.at(i).type() == typeid(char))
+		cout << any_cast<char>(vect.at(i)) << endl;
 }
 ```
 `vect` now holds two `ints`, `doubles`, and `chars` all assigned by the user.
@@ -283,15 +229,9 @@ $ ./any2
 Insert an integer: 8
 Insert a double: 3.3 
 Insert a char: b
-Insert an integer: 9
-Insert a double: 3.4
-Insert a char: a
 8
 3.3
 b
-9
-3.4
-a
 ```
 ###All Together
 A useful application combining the above examples can be seen in [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp):
@@ -309,16 +249,12 @@ Here the `vector<any> v` is filled by the user (as seen in the [any3.cpp](https:
 ```
 $ g++ -std=c++11 any3.cpp -o any3
 $ ./any3
-How many students do you have? 2
+How many students do you have? 1
 Student 1's username: jsmit089
 Student 1's SID: 861035962
 Student 1's GPA: 2.1
-Student 2's username: lskyw001
-Student 2's SID: 861325987
-Student 2's GPA: 3.4
 List of students:
 Username: jsmit089 SID: 861035962 GPA: 2.1
-Username: lskyw001 SID: 861325987 GPA: 3.4
 ```
 
 ##Boost.Variant
@@ -338,11 +274,7 @@ One reason to use Boost.Variant rather than Boost.Any is that when outputting a 
 
 For example:
 ```
-boost::variant<int, double, char, string> var;
-var = 4;
-cout << var << endl;
-var = 3.98;
-cout << var << endl;
+boost::variant<char, string> var;
 var = 'V';
 cout << var << endl;
 var = "hello world"
@@ -352,8 +284,6 @@ This will output:
 ```
 $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
-4
-3.98
 V
 hello world
 ```
@@ -397,38 +327,24 @@ The visitor functional object is a struct that must overload the `operator()` fo
 
 For example:
 ```
-struct func : public static_visitor<>
+struct func : public apply_visitor<>
 {
-	void operator()(int i) const
-		cout << "integer " <<  i << endl;
-	void operator()(double d) const
-		cout << "double " <<  d << endl;
 	void operator()(char c) const
 		cout << "character " <<  c << endl;
 	void operator()(string s) const
 		cout << "string " << s << endl;
 };
-int main()
-{
-	variant<int, double, char, string> var;
-	var = 4;
-	apply_visitor(func{}, v);
-	var = 3.98;
-	apply_visitor(func{}, v);
-	var = 'V';
-	apply_visitor(func{}, v);
-	var = "hello world"
-	apply_visitor(func{}, v);
-	return 0;
-}
+```
+This is the function for apply_visitor.
+It is called like this:
+```
+var = "hello world"
+apply_visitor(func{}, v);
 ```
 This will output:
 ```
 $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
-integer 4
-double 3.98
-character V
 string hello world
 ```
 
@@ -442,28 +358,23 @@ Since there are multiple possible results based on the visitor functional object
 If we wanted to choose to add two `ints` or concatenate two `strings`, then we could use `apply_visitor` to do that for us.
 
 ```
-struct func : public static_visitor<>
-{	
-	void operator()(int i) const
-		cout << "integer " <<  i + i << endl;
-	void operator()(string s) const 
-		cout << "string " << s + s << endl;
-};
-int main()
-{    
-	variant<int, string> var;
-	var = 4;
-	apply_visitor(func{}, var);
-	var = "hello ";
-	apply_visitor(func{}, var);
-	return 0;
-}
+void operator()(int i) const
+	cout << "integer " <<  i + i << endl;
+void operator()(string s) const 
+	cout << "string " << s + s << endl;
 ```
-This will output:
+The above code would be in the `struct func : public apply_visitor<>` function.
+It is called in main like this:
+```
+var = 4;
+apply_visitor(func{}, v);
+var = "hello"
+apply_visitor(func{}, v);
+```
+You then get:
 ```
 $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
-integer 8
 string hello hello
 ```
 ###lexical_cast
