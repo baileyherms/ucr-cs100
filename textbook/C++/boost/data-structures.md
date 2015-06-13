@@ -12,7 +12,7 @@ Dynamically Typed: The type of a variable is interpretted at runtime, thus not s
 Why should people care
 --->
 ##How to Use
-We first need to include the boost libraries and use the boost namespace.
+We first need to look at our [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp) file which includes the boost libraries and uses the boost namespace.
 ```
 #include <boost/optional.hpp>
 #include <iostream>
@@ -36,15 +36,18 @@ Change the below to an example
 For example `-1` is sometimes considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
 In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
 
-Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error.
+Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error. Let's look at our [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp) example.
 
+<!---
+Replace this example with something else
+--->
 ```
 double deg;
 boost::optional<double> degrees()
 {
 	if(deg)
 	{
-		cout << "There is a temperature reported." << endl;
+		cout << "The temperature is " << deg << " degress." << endl;
 		return optional<double>{};
 	}
 	else
@@ -65,8 +68,10 @@ int main()
 This will output:
 
 ```
+$ g++ -std=c++11 optional_temp.cpp -o optional_temp
+$ ./optional_temp
 There is no temperature reported.
-There is a temperature reported.
+The temperature is 43 degrees.
 ```
 <!---
 Show commands to compile and run code
@@ -97,14 +102,14 @@ This takes up less memory (but the variable itself will take up more memory) bec
 <!--
 and why
 -->
-For example:
+For example, our [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) file shows:
 ```
 any var = 4;
 var = false;
 var = 3.25678;
 var = string("hello world");
 ```
-This is valid.
+This is valid and var would be assigned `hello world`.
 But if you tried to do this:
 ```
 any var = 4;
@@ -113,7 +118,14 @@ var = 3.25678;
 var = string("hello world");
 cout << var << endl;
 ```
-You would get an error because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
+You would get:
+```
+$ g++ -std=c++11 any_simple.cpp -o any_simple
+any_simple.cpp: In function ‘int main()’:
+any_simple.cpp:15:10: error: cannot bind ‘std::ostream {aka std::basic_ostream<char>}’ lvalue to ‘std::basic_ostream<char>&&’
+  cout << var << endl;
+```
+This error is because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
 
 So what do you need to do to output a Boost.Any variable?
 You would need to use `boost::any_cast` 
@@ -126,16 +138,17 @@ var = false;
 var = 3.25678;
 var = string("hello world");
 cout << boost::any_cast<string>(var) << endl;
-return 0;
 ```
 This outputs 
 ```
-$ g++ -std=c++11 any.cpp -o any
-$ ./any
+$ g++ -std=c++11 any_simple.cpp -o any_simple
+$ ./any_simple
 hello world
 ```
 
-You can even output multiple Boost.Any variables. These variables will output a value based on their type.
+You can even output multiple Boost.Any variables.
+These variables will output a value based on their type.
+This can be seen in the [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_mult.cpp) example
 <!--
 (explain different types)
 (explain better, change wording)
@@ -152,8 +165,8 @@ cout << boost::any_cast<string>(var) << endl;
 ```
 This will output:
 ```
-$ g++ -std=c++11 any.cpp -o any
-$ ./any
+$ g++ -std=c++11 any_mult.cpp -o any_mult
+$ ./any_mult
 4
 0
 3.25678
@@ -166,41 +179,141 @@ The cast is necessary because Boost.Any assigns values to `var` at runtime so th
 Link to something explaining cast type
 -->
 
-For example, we can modify the previous example to:
+For example, we can modify the previous example to become [any_add.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_add.cpp):
 ```
-boost::any var = 4;
-cout << boost::any_cast<int>(var) + boost::any_cast<int>(var) << endl;
-cout << boost::any_cast<string>(var) + boost::any_cast<string>(var) << endl;
+any var = 4;
+cout << any_cast<int>(var) + any_cast<int>(var) << endl;
+var = string("ho");
+cout << any_cast<string>(var) + any_cast<string>(var) + any_cast<string>(var) << endl;
 ```
 This will now output:
 
 ```
-$ g++ -std=c++11 any.cpp -o any
-$ ./any
+$ g++ -std=c++11 any_add.cpp -o any_add
+$ ./any_add
 8
-44
+hohoho
 ```
 As you can see, the cast is very important in how the code ends up being executed.
+
+Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/any1.cpp) example.
+
+```
+void type(any a)
+{
+	if(!a.empty())
+	{
+		const type_info &ti = a.type();
+		cout << "type: " << ti.name() << endl;
+		if(a.type() == typeid(int))
+			cout << any_cast<int>(a) << endl;
+		else if(a.type() == typeid(double))
+			cout << any_cast<double>(a) << endl;
+		else
+			cout << "The type of a is not an int or a double" << endl;
+	}
+}
+int main()
+{
+	any a = 1;
+	type(a);
+	a = 3.65;
+	type(a);
+	return 0;
+}
+```
+This outputs:
+```
+$ g++ -std=c++11 any1.cpp -o any1
+$ ./any1
+type: i
+1
+type: d
+3.65
+```
+
 Now, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
 
-One Boost.Any `vector` can hold multiple variables of different types.
+As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
 <!--
 Should change wording
 -->
 
 For example:
 ```
-vector<boost::any> vect;
-vect.push_back('a');
-vect.push_back(8);
-vect.push_back(9.09);
-
+vector<any> vect;
+for(unsigned i = 0; i < 2; i++)
+{
+	int in;
+	double d;
+	char c;
+	cout << "Insert an integer: ";
+	cin >> in;
+	vect.push_back(in);
+	cout << "Insert a double: ";
+	cin >> d;
+	vect.push_back(d);
+	cout << "Insert a char: ";
+	cin >> c;
+	vect.push_back(c);
+}
 ```
-`Vector vect` now holds the values `'a', 8, 9.09`.
+`vect` now holds two integers, doubles, and chars all assigned by the user.
+```
+for(unsigned i = 0; i < vect.size(); i++)
+{
+	if(vect.at(i).type() == typeid(int))
+		cout << any_cast<int>(vect.at(i)) << endl;
+	else if(vect.at(i).type() == typeid(double))
+		cout << any_cast<double>(vect.at(i)) << endl;
+	else if(vect.at(i).type() == typeid(char))
+		cout << any_cast<char>(vect.at(i)) << endl;
+}
+```
+When the above is run:
+```
+$ g++ -std=c++11 any2.cpp -o any2
+$ ./any2
+Insert an integer: 8
+Insert a double: 3.3 
+Insert a char: b
+Insert an integer: 9
+Insert a double: 3.4
+Insert a char: a
+8
+3.3
+b
+9
+3.4
+a
+```
 
-<!---
-Add typeid, typeid with vector, any_cast as a "put it all together"
---->
+A useful application combining the above examples can be seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp) file:
+```
+for(unsigned i = 0; i < v.size(); i++)
+{
+	cout << "Username: " << any_cast<string>(v.at(i)) << " ";
+	i++;
+	cout << "SID: " << any_cast<int>(v.at(i)) << " ";
+	i++;
+	cout << "GPA: " << any_cast<double>(v.at(i)) << endl;
+}
+```
+Here the `vector<any> v` is filled by the user (as seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp)) file and the below is output:
+```
+$ g++ -std=c++11 any3.cpp -o any3
+$ ./any3
+How many students do you have? 2
+Student 1's username: jsmit089
+Student 1's SID: 861035962
+Student 1's GPA: 2.1
+Student 2's username: lskyw001
+Student 2's SID: 861325987
+Student 2's GPA: 3.4
+List of students:
+Username: jsmit089 SID: 861035962 GPA: 2.1
+Username: lskyw001 SID: 861325987 GPA: 3.4
+```
 
 ##Boost.Variant
 Uses library `<boost/variant.hpp>`
@@ -228,7 +341,6 @@ var = 'V';
 cout << var << endl;
 var = "hello world"
 cout << var << endl;
-return 0;
 ```
 This will output:
 ```
