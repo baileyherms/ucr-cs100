@@ -93,45 +93,15 @@ This takes up less memory (but the variable itself will take up more memory) bec
 and why
 -->
 ###`any_cast`
-For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any_simple.cpp) shows:
-```
-any var = 4;
-var = string("hello world");
-```
-This is valid and var would be assigned `hello world`.
-But if you tried to do this:
-```
-any var = 4;
-var = string("hello world");
-cout << var << endl;
-```
-You would get:
-```
-$ g++ -std=c++11 any_simple.cpp -o any_simple
-any_simple.cpp: In function ‘int main()’:
-any_simple.cpp:15:10: error: cannot bind ‘std::ostream {aka std::basic_ostream<char>}’ lvalue to ‘std::basic_ostream<char>&&’
-  cout << var << endl;
-```
-This error is because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
+`any_cast` is a `boost` function that applies a cast to a variable.
+One thing `any_cast` is needed for is to output Boost.Any variables.
+Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
 
-So what do you need to do to output a Boost.Any variable?
-You would need to use `any_cast` 
 <!--
 (explain how var is currently set to a string and that it cannot `cout << boost::any_cast<int>(var) << endl;`)
 -->
-```
-any var = 4;
-var = string("hello world");
-cout << any_cast<string>(var) << endl;
-```
-This outputs 
-```
-$ g++ -std=c++11 any_simple.cpp -o any_simple
-$ ./any_simple
-hello world
-```
 
-You can even output multiple Boost.Any variables.
+You can output multiple Boost.Any variables using `any_cast`.
 These variables will output a value based on their type.
 This can be seen in [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/hw4/any_mult.cpp)
 <!--
