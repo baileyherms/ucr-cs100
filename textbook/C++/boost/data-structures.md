@@ -3,7 +3,7 @@ Fix examples, only put in the part of the examples in the writeup which are rele
 Split up examples (ex: split up any into multiple example files)
 --->
 #Boost Libraries- Optional, Any, Variant
-This tutorial will focus on `boost/optional`, `boost/any`,and `boost/variant`. The point of these libraries is to take the statically typed language C++ and make it similar to dynamically typed languages.
+The point of the libraries `boost/optional`, `boost/any`,and `boost/variant` is to take the statically typed language C++ and make it similar to dynamically typed languages.
 
 Statically Typed: The type of a variable is known at runtime. The programmer must specify the type in the code. Languages C, C++, and Java are statically typed.
 
@@ -33,10 +33,8 @@ This can be useful to use if you want to check if a function returns a valid val
 <!---
 Change the below to an example
 --->
-For example `-1` is sometimes considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
-In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
 
-Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error. Let's look at our [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp) example.
+Boost.Optional allows you to initialize your variable in the temperature function to empty, and if nothing is returned, then you know that you have an error. Let's look at [optional_temp.cpp](https://github.com/baileyherms/rshell/blob/master/src/optional_temp.cpp)
 
 <!---
 Replace this example with something else
@@ -73,6 +71,8 @@ $ ./optional_temp
 There is no temperature reported.
 The temperature is 43 degrees.
 ```
+`-1` is sometimes considered valid (say if you are measuring temperature), but `-1` is also used to say when a function has failed. 
+In the temperature example, we want `-1` to be a possible passing return value, so we'll use Boost.Optional to know when the function hasn't done the task we want it to.
 <!---
 Show commands to compile and run code
 --->
@@ -89,9 +89,7 @@ boost::optional get_value_or( , )    boost::get_optional_value_or( , ) if first 
 <!---
 You need to talk about the difference between dynamic and static typing. In particular, you should never use Any when it is possible to use auto.
 --->
-Uses library `<boost/any.hpp>`
-
-It allows for a variable that can be changed to any type in any portion of its scope.
+Uses library `<boost/any.hpp>` and allows for a variable that can be changed to any type in any portion of its scope.
 <!---
 Explain what variables it cannot use
 -->
@@ -102,7 +100,7 @@ This takes up less memory (but the variable itself will take up more memory) bec
 <!--
 and why
 -->
-For example, our [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) file shows:
+For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) shows:
 ```
 any var = 4;
 var = false;
