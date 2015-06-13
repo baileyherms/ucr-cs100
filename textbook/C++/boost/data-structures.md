@@ -100,6 +100,7 @@ This takes up less memory (but the variable itself will take up more memory) bec
 <!--
 and why
 -->
+###Any_Cast
 For example, [any_simple.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_simple.cpp) shows:
 ```
 any var = 4;
@@ -126,16 +127,16 @@ any_simple.cpp:15:10: error: cannot bind ‘std::ostream {aka std::basic_ostream
 This error is because Boost.Any does not support `<<`, so you cannot use `cout` with anything involving `Any`.
 
 So what do you need to do to output a Boost.Any variable?
-You would need to use `boost::any_cast` 
+You would need to use `any_cast` 
 <!--
 (explain how var is currently set to a string and that it cannot `cout << boost::any_cast<int>(var) << endl;`)
 -->
 ```
-boost::any var = 4;
+any var = 4;
 var = false;
 var = 3.25678;
 var = string("hello world");
-cout << boost::any_cast<string>(var) << endl;
+cout << any_cast<string>(var) << endl;
 ```
 This outputs 
 ```
@@ -146,20 +147,20 @@ hello world
 
 You can even output multiple Boost.Any variables.
 These variables will output a value based on their type.
-This can be seen in the [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_mult.cpp) example
+This can be seen in [any_mult.cpp](https://github.com/baileyherms/rshell/blob/master/src/any_mult.cpp)
 <!--
 (explain different types)
 (explain better, change wording)
 -->
 ```
-boost::any var = 4;
-cout << boost::any_cast<int>(var) << endl;
+any var = 4;
+cout << any_cast<int>(var) << endl;
 var = false;
-cout << boost::any_cast<bool>(var) << endl;
+cout << any_cast<bool>(var) << endl;
 var = 3.25678;
-cout << boost::any_cast<double>(var) << endl;
+cout << any_cast<double>(var) << endl;
 var = string("hello world");
-cout << boost::any_cast<string>(var) << endl;
+cout << any_cast<string>(var) << endl;
 ```
 This will output:
 ```
@@ -192,8 +193,10 @@ $ ./any_add
 8
 hohoho
 ```
+<!---
 As you can see, the cast is very important in how the code ends up being executed.
-
+--->
+###type_info
 Another important part of `Any` is `type_info` which can show what the type of a variable is which can be seen in the [any_1.cpp](https://github.com/baileyherms/rshell/blob/master/src/any1.cpp) example.
 
 ```
@@ -229,7 +232,7 @@ type: i
 type: d
 3.65
 ```
-
+###`Any` Vectors
 Now, you might be thinking that it would be easier to create separate variables so you don't have to worry about casting the types, so let's use Boost.Any with vectors.
 
 As shown in [any2.cpp](https://github.com/baileyherms/rshell/blob/master/src/any2.cpp) one Boost.Any `vector` can hold multiple variables of different types.
@@ -254,20 +257,18 @@ for(unsigned i = 0; i < 2; i++)
 	cout << "Insert a char: ";
 	cin >> c;
 	vect.push_back(c);
+	for(unsigned i = 0; i < vect.size(); i++)
+	{
+		if(vect.at(i).type() == typeid(int))
+			cout << any_cast<int>(vect.at(i)) << endl;
+		else if(vect.at(i).type() == typeid(double))
+			cout << any_cast<double>(vect.at(i)) << endl;
+		else if(vect.at(i).type() == typeid(char))
+			cout << any_cast<char>(vect.at(i)) << endl;
+	}
 }
 ```
 `vect` now holds two integers, doubles, and chars all assigned by the user.
-```
-for(unsigned i = 0; i < vect.size(); i++)
-{
-	if(vect.at(i).type() == typeid(int))
-		cout << any_cast<int>(vect.at(i)) << endl;
-	else if(vect.at(i).type() == typeid(double))
-		cout << any_cast<double>(vect.at(i)) << endl;
-	else if(vect.at(i).type() == typeid(char))
-		cout << any_cast<char>(vect.at(i)) << endl;
-}
-```
 When the above is run:
 ```
 $ g++ -std=c++11 any2.cpp -o any2
@@ -285,8 +286,8 @@ b
 3.4
 a
 ```
-
-A useful application combining the above examples can be seen in the [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp) file:
+###All Together
+A useful application combining the above examples can be seen in [any3.cpp](https://github.com/baileyherms/rshell/blob/master/src/any3.cpp):
 ```
 for(unsigned i = 0; i < v.size(); i++)
 {
@@ -325,7 +326,7 @@ Link to a site that explains
 <!---
 Why should he care
 --->
-
+###Why Boost.Variant
 One reason to use Boost.Variant rather than Boost.Any is that when outputting a variant value, you do not have to specify the type since you define the possible types the value can be when initializing the value.
 
 For example:
@@ -352,16 +353,17 @@ hello world
 <!---
 Why should he care (add variant.cpp example here)
 --->
+###get<type>
 If you wanted to use other operators on the values other than just stream, then you'd have to do something similar to the cast used in Boost.Any.
-The way to do that is to use `boost::get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
+The way to do that is to use `get<type>(var)` where `<type>` is the variable type you want `var` to be interpreted as. 
 So to add two `ints` or to concatenate two `strings`, you'd have to change the code to:
 ```
-boost::variant<int, double, char, string> var, var2;
+variant<int, double, char, string> var, var2;
 var = 4;
-cout << boost::get<int>(var) + boost::get<int>(var) << endl;
+cout << get<int>(var) + get<int>(var) << endl;
 var = "hello";
 var2 = " world";
-cout << boost::get<string>(var) + boost::get<string>(var2) << endl;
+cout << get<string>(var) + get<string>(var2) << endl;
 ```
 This will output:
 ```
@@ -370,14 +372,15 @@ $ ./variant
 8
 hello world
 ```
-If you had attempted to do `var + var` in the previous example without using `boost::get<type>` then the computer wouldn't know which of the types in the original variable declaration you would want the variable to be interpreted as.
+If you had attempted to do `var + var` in the previous example without using `get<type>` then the computer wouldn't know which of the types in the original variable declaration you would want the variable to be interpreted as.
 
+###`apply_visitor`
 Another thing that Boost.Variant can do is send a variable to a function.
 <!--
 to a function, or...
 -->
 When the variable is sent to a function, it can have different actions done to the variable depending on its type.
-This is used with `boost::apply_visitor()` that takes two arguments within its parenthesis.
+This is used with `apply_visitor()` that takes two arguments within its parenthesis.
 <!--
 (link to something explaining how to use boost::apply_visitor())
 -->
@@ -387,7 +390,7 @@ The visitor functional object is a struct that must overload the `operator()` fo
 
 For example:
 ```
-struct func : public boost::static_visitor<>
+struct func : public static_visitor<>
 {
 	void operator()(int i) const
 		cout << "integer " <<  i << endl;
@@ -400,15 +403,15 @@ struct func : public boost::static_visitor<>
 };
 int main()
 {
-	boost::variant<int, double, char, string> var;
+	variant<int, double, char, string> var;
 	var = 4;
-	boost::apply_visitor(func{}, v);
+	apply_visitor(func{}, v);
 	var = 3.98;
-	boost::apply_visitor(func{}, v);
+	apply_visitor(func{}, v);
 	var = 'V';
-	boost::apply_visitor(func{}, v);
+	apply_visitor(func{}, v);
 	var = "hello world"
-	boost::apply_visitor(func{}, v);
+	apply_visitor(func{}, v);
 	return 0;
 }
 ```
@@ -432,7 +435,7 @@ Since there are multiple possible results based on the visitor functional object
 If we wanted to choose to add two `ints` or concatenate two `strings`, then we could use `apply_visitor` to do that for us.
 
 ```
-struct func : public boost::static_visitor<>
+struct func : public static_visitor<>
 {	
 	void operator()(int i) const
 		cout << "integer " <<  i + i << endl;
@@ -441,11 +444,11 @@ struct func : public boost::static_visitor<>
 };
 int main()
 {    
-	boost::variant<int, string> var;
+	variant<int, string> var;
 	var = 4;
-	boost::apply_visitor(func{}, var);
+	apply_visitor(func{}, var);
 	var = "hello ";
-	boost::apply_visitor(func{}, var);
+	apply_visitor(func{}, var);
 	return 0;
 }
 ```
@@ -456,14 +459,15 @@ $ ./variant
 integer 8
 string hello hello
 ```
-Note: If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a string as we did with Boost.Any, then you'd have to use the [boost::lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
+###lexical_cast
+If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a string as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
 The main function of the previous example would need to become:
 ```
-boost::variant<int, string> var;
+variant<int, string> var;
 var = 4;
-boost::apply_visitor(func{}, var);
-var = boost::lexical_cast<string>(var);
-boost::apply_visitor(func{}, var);
+apply_visitor(func{}, var);
+var = lexical_cast<string>(var);
+apply_visitor(func{}, var);
 ```
 This will now output:
 ```
