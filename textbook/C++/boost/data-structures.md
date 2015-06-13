@@ -251,8 +251,8 @@ cout << var << endl;
 ```
 This will output:
 ```
-$ g++ -std=c++11 variant.cpp -o variant
-$ ./variant
+$ g++ -std=c++11 variant_simple.cpp -o variant_simple
+$ ./variant_simple
 V
 hello world
 ```
@@ -273,8 +273,8 @@ cout << get<string>(var) + get<string>(var2) << endl;
 ```
 This will output:
 ```
-$ g++ -std=c++11 variant.cpp -o variant
-$ ./variant
+$ g++ -std=c++11 variant_get.cpp -o variant_get
+$ ./variant_get
 8
 hello world
 ```
@@ -313,8 +313,8 @@ apply_visitor(func{}, var);
 ```
 This will output:
 ```
-$ g++ -std=c++11 variant.cpp -o variant
-$ ./variant
+$ g++ -std=c++11 variant_apply.cpp -o variant_apply
+$ ./variant_apply
 character V
 string hello world
 ```
@@ -342,8 +342,8 @@ apply_visitor(func{}, v);
 ```
 You then get:
 ```
-$ g++ -std=c++11 variant.cpp -o variant
-$ ./variant
+$ g++ -std=c++11 variant_apply_add.cpp -o variant_apply_add
+$ ./variant_apply_add
 string hellohello
 ```
 ###`lexical_cast`
@@ -358,8 +358,8 @@ apply_visitor(func{}, var);
 ```
 This will now output:
 ```
-$ g++ -std=c++11 variant.cpp -o variant
-$ ./variant
+$ g++ -std=c++11 variant_lexical.cpp -o variant_lexical
+$ ./variant_lexical
 integer 8
 string 44
 ```
