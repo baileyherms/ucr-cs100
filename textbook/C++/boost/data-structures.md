@@ -327,17 +327,17 @@ The visitor functional object is a struct that must overload the `operator()` fo
 
 For example:
 ```
-struct func : public apply_visitor<>
+struct func : public static_visitor<>
 {
-	void operator()(char c) const
-		cout << "character " <<  c << endl;
-	void operator()(string s) const
-		cout << "string " << s << endl;
+	void operator()(char c) const { cout << "character " <<  c << endl; }
+	void operator()(string s) const { cout << "string " << s << endl; }
 };
 ```
 This is the function for apply_visitor.
 It is called like this:
 ```
+var = 'V';
+apply_visitor(func{}, v);
 var = "hello world"
 apply_visitor(func{}, v);
 ```
@@ -345,6 +345,7 @@ This will output:
 ```
 $ g++ -std=c++11 variant.cpp -o variant
 $ ./variant
+character V
 string hello world
 ```
 
