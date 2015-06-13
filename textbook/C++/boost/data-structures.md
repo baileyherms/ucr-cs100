@@ -322,8 +322,9 @@ This is used with `apply_visitor()` that takes two arguments within its parenthe
 (link to something explaining how to use boost::apply_visitor())
 -->
 
-The first argument is called a visitor functional object and the second parameter is a Boost.Variant variable.
-The visitor functional object is a struct that must overload the `operator()` for each possible type defined for your variant variable.
+The first arugment expects a struct that is derived from `boost::static_visitor`.
+This struct must overload the `operator()` for each possible type defined for your variant variable.
+The second parameter is a Boost.Variant variable.
 
 For example:
 ```
@@ -337,9 +338,9 @@ This is the function for apply_visitor.
 It is called like this:
 ```
 var = 'V';
-apply_visitor(func{}, v);
+apply_visitor(func{}, var);
 var = "hello world"
-apply_visitor(func{}, v);
+apply_visitor(func{}, var);
 ```
 This will output:
 ```
