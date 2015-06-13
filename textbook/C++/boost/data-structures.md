@@ -45,7 +45,7 @@ Replace this example with something else
 --->
 ```
 double deg;
-boost::optional<double> degrees()
+optional<double> degrees()
 {
 	if(deg)
 		return deg;
@@ -274,7 +274,7 @@ One reason to use Boost.Variant rather than Boost.Any is that when outputting a 
 
 For example:
 ```
-boost::variant<char, string> var;
+variant<char, string> var;
 var = 'V';
 cout << var << endl;
 var = "hello world"
@@ -322,7 +322,7 @@ This is used with `apply_visitor()` that takes two arguments within its parenthe
 (link to something explaining how to use boost::apply_visitor())
 -->
 
-The first arugment expects a struct that is derived from `boost::static_visitor`.
+The first arugment expects a struct that is derived from `static_visitor`.
 This struct must overload the `operator()` for each possible type defined for your variant variable.
 The second parameter is a Boost.Variant variable.
 
@@ -365,7 +365,7 @@ void operator()(int i) const
 void operator()(string s) const 
 	cout << "string " << s + s << endl;
 ```
-The above code would be in the `struct func : public apply_visitor<>` function.
+The above code would be in the `struct func : public static_visitor<>` function.
 It is called in main like this:
 ```
 var = 4;
@@ -380,7 +380,7 @@ $ ./variant
 string hello hello
 ```
 ###`lexical_cast`
-If you wanted to have a Boost.Variant variable and cast it to another type to use in the `apply_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
+If you wanted to have a Boost.Variant variable and cast it to another type to use in the `static_visitor` function to make the `int` act like a `string` as we did with Boost.Any, then you'd have to use the [lexical_cast](http://theboostcpplibraries.com/boost.lexical_cast) library to do so.
 The main function of the previous example would need to become:
 ```
 variant<int, string> var;
